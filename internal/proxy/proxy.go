@@ -776,7 +776,7 @@ type socketMount struct {
 func networkType(conf *Config, inst InstanceConnConfig) string {
 	if (conf.UnixSocket == "" && inst.UnixSocket == "" && inst.UnixSocketPath == "") ||
 		(inst.Addr != "" || inst.Port != 0) {
-		return "tcp"
+		return "tcp4"
 	}
 	return "unix"
 }
@@ -799,8 +799,8 @@ func (c *Client) newSocketMount(ctx context.Context, conf *Config, pc *portConfi
 	//   instance)
 	// use a TCP listener.
 	// Otherwise, use a Unix socket.
-	if networkType(conf, inst) == "tcp" {
-		network = "tcp"
+	if networkType(conf, inst) == "tcp4" {
+		network = "tcp4"
 
 		a := conf.Addr
 		if inst.Addr != "" {
